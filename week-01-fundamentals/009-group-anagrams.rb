@@ -37,6 +37,7 @@ def group_anagrams_v1(strs)
 end
 
 # Optimized approach
+# 44 ms, Beats 55 per cent
 def group_anagrams(strs)
   h = Hash.new { |hash, key| hash[key] = [] }
   
