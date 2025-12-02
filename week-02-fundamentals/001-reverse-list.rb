@@ -77,16 +77,61 @@ pp reverse_list_v3(head).inspect
 
 # Recursive approach
 # This also beats 100 per cent
-def reverse_list(head, prev = nil)
+def reverse_list_v4(head, prev = nil)
   return if head.nil?
   n1 = head
   prev = ListNode.new(n1.val, prev)
   if n1.next
-    reverse_list(n1.next, prev)
+    reverse_list_v4(n1.next, prev)
   else
     prev
   end
 end
 
 puts "-----------------------------------------------"
-pp reverse_list(head).inspect
+pp reverse_list_v4(head).inspect
+
+# Iterative solution without new allocation(in place reversal)
+# Beats 100 per cent in time and 50 per cent in space
+# Better approach
+def reverse_list_v5(head)
+  return head if head.nil?
+
+  prev = nil
+  while head
+    nxt = head.next
+    head.next = prev
+    prev = head
+    head = nxt
+  end
+  prev
+end
+
+puts "-----------------------------------------------"
+pp reverse_list_v5(head).inspect
+
+# Recursive approach without new allocation(in place reversal)
+def reverse_list(head, prev = nil)
+  return prev if head.nil?
+  nxt = head.next
+  head.next = prev
+  reverse_list(nxt, head)
+end
+
+# Helper to print the list
+def print_list(node)
+  values = []
+  while node
+    values << node. val
+    node = node.next
+  end
+  values
+end
+
+# Test
+head = ListNode.new(1, ListNode.new(2, ListNode.new(3, ListNode.new(4, ListNode.new(5)))))
+puts "Original list: #{print_list(head)}"
+
+result = reverse_list(head)
+puts "Reversed list: #{print_list(result)}"
+puts "Result inspect: #{result.inspect}"
