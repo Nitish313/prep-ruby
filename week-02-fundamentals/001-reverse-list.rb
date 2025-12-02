@@ -26,6 +26,7 @@ end
 # @param {ListNode} head
 # @return {ListNode}
 # Iterative approach: Beats 100 per cent
+# But this is NOT the correct approach as we are returning array object instead of a linked list
 def reverse_list_v1(head)
   return [] if head.nil?
   n1 = head
@@ -42,17 +43,50 @@ head = ListNode.new(1, ListNode.new(2, ListNode.new(3, ListNode.new(4, ListNode.
 pp reverse_list_v1(head)
 
 # Recursive approach
-# Beats 2.53 per sent
-def reverse_list(head, arr = [])
+# Beats 2.53 per cent
+# This is also incorrect as it returns an array object
+def reverse_list_v2(head, arr = [])
   return arr if head.nil?
   n1 = head
 
   if n1.next
-    reverse_list(n1.next, arr + [n1.val])
+    reverse_list_v2(n1.next, arr + [n1.val])
   else
     arr << n1.val
     arr.reverse
   end
 end
-pp "#############################"
-pp reverse_list(head, [])
+puts "#############################"
+pp reverse_list_v2(head, [])
+
+# Iterative approach and it should return a LinkedList(ListNode) object
+# Beats 100 per cent
+def reverse_list_v3(head)
+  return head if head.nil?
+  n1 = head
+  prev = ListNode.new(n1.val, nil)
+  while n1.next
+    n1 = n1.next
+    prev = ListNode.new(n1.val, prev)
+  end
+  prev
+end
+
+puts "=============================="
+pp reverse_list_v3(head).inspect
+
+# Recursive approach
+# This also beats 100 per cent
+def reverse_list(head, prev = nil)
+  return if head.nil?
+  n1 = head
+  prev = ListNode.new(n1.val, prev)
+  if n1.next
+    reverse_list(n1.next, prev)
+  else
+    prev
+  end
+end
+
+puts "-----------------------------------------------"
+pp reverse_list(head).inspect
